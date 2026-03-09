@@ -579,3 +579,744 @@ import { Upload } from "@jem-open/jem-ui"
   onSubmit={handleSubmit}
 />
 ```
+
+### Navigation
+
+#### Accordion (compound)
+
+```typescript
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@jem-open/jem-ui"
+```
+
+**Accordion props:** extends Radix Accordion.Root. Key props: `type` ("single" | "multiple"), `collapsible`, `value`, `onValueChange`.
+
+**Example:**
+
+```tsx
+<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Section 1</AccordionTrigger>
+    <AccordionContent>Content for section 1</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Section 2</AccordionTrigger>
+    <AccordionContent>Content for section 2</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+Trigger text turns pink on hover and when open. ChevronDown icon rotates.
+
+#### Tabs (compound)
+
+```typescript
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@jem-open/jem-ui"
+```
+
+**TabsList variants:**
+
+| Variant | Description |
+|---|---|
+| `default` | Pink-100 background, white active tab |
+| `line` | Border-bottom style, no background |
+
+**TabsTrigger variants:** matches TabsList — use `variant="line"` on both for line style.
+
+**Example (default):**
+
+```tsx
+<Tabs defaultValue="general">
+  <TabsList>
+    <TabsTrigger value="general">General</TabsTrigger>
+    <TabsTrigger value="security">Security</TabsTrigger>
+  </TabsList>
+  <TabsContent value="general">General settings</TabsContent>
+  <TabsContent value="security">Security settings</TabsContent>
+</Tabs>
+```
+
+**Example (line variant):**
+
+```tsx
+<Tabs defaultValue="overview">
+  <TabsList variant="line">
+    <TabsTrigger variant="line" value="overview">Overview</TabsTrigger>
+    <TabsTrigger variant="line" value="details">Details</TabsTrigger>
+  </TabsList>
+  <TabsContent value="overview">Overview content</TabsContent>
+  <TabsContent value="details">Details content</TabsContent>
+</Tabs>
+```
+
+#### Breadcrumb (compound)
+
+```typescript
+import {
+  Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink,
+  BreadcrumbPage, BreadcrumbSeparator
+} from "@jem-open/jem-ui"
+```
+
+**BreadcrumbSeparator** accepts `variant`: `"chevron"` (default) or `"slash"`.
+
+**BreadcrumbLink** supports `asChild` for use with router links.
+
+**Example:**
+
+```tsx
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/settings">Settings</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Profile</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+```
+
+#### Pagination (compound)
+
+```typescript
+import {
+  Pagination, PaginationContent, PaginationItem,
+  PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis
+} from "@jem-open/jem-ui"
+```
+
+**PaginationLink** props: `isActive` (boolean) — active page gets outline variant with border. `size` from Button.
+
+**Example:**
+
+```tsx
+<Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious href="#" />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#" isActive>1</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">2</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationEllipsis />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext href="#" />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+```
+
+#### Link
+
+```typescript
+import { Link } from "@jem-open/jem-ui"
+```
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `variant` | `"default" \| "muted"` | `"default"` | default is pink-900, muted is greyscale-text-caption |
+| `size` | `"xs" \| "sm" \| "base"` | `"xs"` | Font size: 12px, 14px, 16px |
+
+Plus standard anchor attributes.
+
+**Example:**
+
+```tsx
+<Link href="/privacy" variant="muted" size="sm">Privacy Policy</Link>
+```
+
+### Data Display
+
+#### DataTable (compound)
+
+```typescript
+import { DataTable, DataTableColumnHeader } from "@jem-open/jem-ui"
+```
+
+Uses TanStack React Table. Requires defining columns with `ColumnDef`.
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `columns` | `ColumnDef<TData, TValue>[]` | required | Column definitions |
+| `data` | `TData[]` | required | Data array |
+| `filterColumn` | `string` | — | Column key to filter on |
+| `filterPlaceholder` | `string` | — | Filter input placeholder |
+| `showPagination` | `boolean` | `true` | Show pagination controls |
+| `showToolbar` | `boolean` | `true` | Show toolbar with filter |
+| `showRowsSelected` | `boolean` | `true` | Show selected row count |
+| `toolbarChildren` | `React.ReactNode` | — | Extra toolbar content |
+
+**DataTableColumnHeader** enables sorting. Use it in column header definitions.
+
+**Example:**
+
+```tsx
+import { ColumnDef } from "@tanstack/react-table"
+
+type User = { name: string; email: string; status: string }
+
+const columns: ColumnDef<User>[] = [
+  {
+    accessorKey: "name",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
+  },
+  {
+    accessorKey: "email",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Email" />,
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => <Tag variant="success">{row.getValue("status")}</Tag>,
+  },
+]
+
+<DataTable columns={columns} data={users} filterColumn="name" filterPlaceholder="Filter by name..." />
+```
+
+#### Table (compound)
+
+```typescript
+import {
+  Table, TableHeader, TableBody, TableRow, TableHead, TableCell
+} from "@jem-open/jem-ui"
+```
+
+Primitive table elements for custom table layouts. Use DataTable for most cases.
+
+**Example:**
+
+```tsx
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Name</TableHead>
+      <TableHead>Status</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Alice</TableCell>
+      <TableCell>Active</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+Additional parts: `TableCaption`, `TableFooter`.
+
+#### Tag / DismissibleTag / CountTag
+
+```typescript
+import { Tag, DismissibleTag, CountTag } from "@jem-open/jem-ui"
+```
+
+**Tag variants:**
+
+| Variant | Description |
+|---|---|
+| `default` | Navy-900 background |
+| `success` | Green tones |
+| `processing` | Blue-50 background |
+| `pending` | Yellow-50 background |
+| `failed` | Red-50 background |
+| `drafted` | Grey tones |
+| `outline` | Border only |
+| `outline-navy` | Navy border |
+| `neutral` | Neutral background |
+| `pink` | Pink background |
+| `pink-text` | Pink text, no background |
+| `lime` | Lime background |
+| `purple` | Purple background |
+
+**Tag example:**
+
+```tsx
+<Tag variant="success">Active</Tag>
+<Tag variant="pending">Pending review</Tag>
+```
+
+**DismissibleTag** adds `onDismiss` callback:
+
+```tsx
+<DismissibleTag variant="default" onDismiss={() => removeTag(id)}>
+  Filter: Active
+</DismissibleTag>
+```
+
+**CountTag** — small pink circle with white number:
+
+```tsx
+<CountTag>3</CountTag>
+```
+
+#### Avatar (compound)
+
+```typescript
+import { Avatar, AvatarImage, AvatarFallback } from "@jem-open/jem-ui"
+```
+
+**Avatar sizes:**
+
+| Size | Dimensions |
+|---|---|
+| `sm` | 32px |
+| `md` | 40px (default) |
+| `lg` | 48px |
+
+**Example:**
+
+```tsx
+<Avatar size="lg">
+  <AvatarImage src="/user.jpg" alt="Jane Doe" />
+  <AvatarFallback size="lg">JD</AvatarFallback>
+</Avatar>
+```
+
+Note: Pass `size` to both `Avatar` and `AvatarFallback` to keep dimensions consistent.
+
+**AvatarBadge** — online/status indicator (green dot, absolute positioned):
+
+```tsx
+<Avatar>
+  <AvatarImage src="/user.jpg" alt="Jane Doe" />
+  <AvatarFallback>JD</AvatarFallback>
+  <AvatarBadge />
+</Avatar>
+```
+
+**AvatarGroup / AvatarGroupCount** — stacked avatars:
+
+```tsx
+<AvatarGroup>
+  <Avatar><AvatarFallback>AB</AvatarFallback></Avatar>
+  <Avatar><AvatarFallback>CD</AvatarFallback></Avatar>
+  <Avatar><AvatarFallback>EF</AvatarFallback></Avatar>
+  <AvatarGroupCount>+5</AvatarGroupCount>
+</AvatarGroup>
+```
+
+#### Progress
+
+```typescript
+import { Progress } from "@jem-open/jem-ui"
+```
+
+**Props:** extends Radix Progress. Key prop: `value` (0-100).
+
+Height: 6px. Indicator: secondary-pink-900.
+
+**Example:**
+
+```tsx
+<Progress value={65} />
+```
+
+#### Divider
+
+```typescript
+import { Divider } from "@jem-open/jem-ui"
+```
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Direction |
+| `variant` | `"default" \| "subtle" \| "strong" \| "primary" \| "secondary"` | `"default"` | Color style |
+| `spacing` | `"none" \| "sm" \| "md" \| "lg"` | `"none"` | Margin around divider |
+| `label` | `string` | — | Text label in center (horizontal only) |
+
+**Example:**
+
+```tsx
+<Divider spacing="md" />
+<Divider label="OR" variant="subtle" spacing="lg" />
+```
+
+#### Skeleton
+
+```typescript
+import { Skeleton } from "@jem-open/jem-ui"
+```
+
+Loading placeholder. Apply width/height via className.
+
+**Example:**
+
+```tsx
+<Skeleton className="h-12 w-full" />
+<Skeleton className="h-4 w-3/4" />
+```
+
+### Feedback
+
+#### Dialog (compound)
+
+```typescript
+import {
+  Dialog, DialogTrigger, DialogContent, DialogHeader,
+  DialogTitle, DialogDescription, DialogFooter, DialogClose
+} from "@jem-open/jem-ui"
+```
+
+**DialogContent** props:
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `showCloseButton` | `boolean` | `true` | Show X button in top-right |
+
+Max width: `max-w-md`. Border radius: `rounded-2xl`.
+
+**DialogTitle** variants:
+
+| Variant | Description |
+|---|---|
+| `default` | greyscale-text-title color |
+| `error` | secondary-pink-900 color (use for destructive actions) |
+
+**Example:**
+
+```tsx
+<Dialog>
+  <DialogTrigger asChild>
+    <Button>Open dialog</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Edit profile</DialogTitle>
+      <DialogDescription>Make changes to your profile here.</DialogDescription>
+    </DialogHeader>
+    {/* Form content */}
+    <DialogFooter>
+      <DialogClose asChild>
+        <Button variant="outline">Cancel</Button>
+      </DialogClose>
+      <Button variant="primary">Save</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+Also available: `DialogContact` (shows email link, default "support@example.com").
+
+#### Drawer (compound)
+
+```typescript
+import {
+  Drawer, DrawerTrigger, DrawerContent, DrawerHeader,
+  DrawerBody, DrawerFooter, DrawerTitle, DrawerClose
+} from "@jem-open/jem-ui"
+```
+
+**Drawer** props:
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `direction` | `"right" \| "left" \| "top" \| "bottom"` | `"right"` | Side to open from |
+
+**DrawerHeader** props: `showCloseButton` (default: true). Background: secondary-pink-50.
+
+**DrawerContent**: max-w-[455px] for left/right, max-h-[80vh] for top/bottom.
+
+**Example:**
+
+```tsx
+<Drawer direction="right">
+  <DrawerTrigger asChild>
+    <Button variant="outline">View details</Button>
+  </DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle>User Details</DrawerTitle>
+    </DrawerHeader>
+    <DrawerBody>
+      {/* Detail content */}
+    </DrawerBody>
+    <DrawerFooter>
+      <Button variant="primary">Edit</Button>
+      <DrawerClose asChild>
+        <Button variant="outline">Close</Button>
+      </DrawerClose>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>
+```
+
+Also available: `DrawerSection` (groups content within DrawerBody), `DrawerDescription`.
+
+#### DropdownMenu (compound)
+
+```typescript
+import {
+  DropdownMenu, DropdownMenuTrigger, DropdownMenuContent,
+  DropdownMenuItem, DropdownMenuSeparator
+} from "@jem-open/jem-ui"
+```
+
+**DropdownMenuItem** props:
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `inset` | `boolean` | `false` | Add left padding (align with items that have icons) |
+| `variant` | `"default" \| "destructive"` | `"default"` | destructive shows red text |
+
+**Example:**
+
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <IconButton icon={<MoreHorizontal />} aria-label="Actions" />
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem>Edit</DropdownMenuItem>
+    <DropdownMenuItem>Duplicate</DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+Additional parts for selection: `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem`.
+Nested menus: `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`.
+Grouping: `DropdownMenuGroup`, `DropdownMenuLabel`.
+Keyboard shortcuts: `DropdownMenuShortcut`.
+
+#### Tooltip (compound)
+
+```typescript
+import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from "@jem-open/jem-ui"
+```
+
+**TooltipContent** variants:
+
+| Variant | Description |
+|---|---|
+| `dark` | Navy-900 background, white text (default) |
+| `light` | Neutral-100 background, title text |
+
+**Important:** Wrap your app or layout in `<TooltipProvider>` once. Tooltips won't render without it.
+
+**Example:**
+
+```tsx
+// In layout.tsx — add once
+<TooltipProvider>
+  {children}
+</TooltipProvider>
+
+// In any component
+<Tooltip>
+  <TooltipTrigger asChild>
+    <IconButton icon={<Info />} aria-label="More info" />
+  </TooltipTrigger>
+  <TooltipContent variant="dark">
+    Additional information here
+  </TooltipContent>
+</Tooltip>
+```
+
+#### Popover (compound)
+
+```typescript
+import { Popover, PopoverTrigger, PopoverContent } from "@jem-open/jem-ui"
+```
+
+**PopoverContent** props: `align` (default: "center"), `sideOffset` (default: 4).
+
+**Example:**
+
+```tsx
+<Popover>
+  <PopoverTrigger asChild>
+    <Button variant="outline">Options</Button>
+  </PopoverTrigger>
+  <PopoverContent align="start">
+    {/* Popover content */}
+  </PopoverContent>
+</Popover>
+```
+
+Also available: `PopoverAnchor`, `PopoverHeader`, `PopoverTitle`, `PopoverDescription`.
+
+#### Alert (compound)
+
+```typescript
+import { Alert, AlertTitle, AlertDescription } from "@jem-open/jem-ui"
+```
+
+**Alert variants** (each has an automatic icon):
+
+| Variant | Icon | Description |
+|---|---|---|
+| `default` | Info | General information |
+| `success` | CheckCircle2 | Success message |
+| `warning` | AlertTriangle | Warning message |
+| `destructive` | AlertCircle | Error message |
+| `note` | Lightbulb | Note/tip |
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `hideIcon` | `boolean` | `false` | Hide the automatic icon |
+
+**Example:**
+
+```tsx
+<Alert variant="warning">
+  <AlertTitle>Warning</AlertTitle>
+  <AlertDescription>Your session will expire in 5 minutes.</AlertDescription>
+</Alert>
+```
+
+#### EmptyState
+
+```typescript
+import { EmptyState } from "@jem-open/jem-ui"
+```
+
+**Variants:**
+
+| Variant | Description |
+|---|---|
+| `default` | No background |
+| `card` | greyscale-surface-subtle background |
+| `bordered` | Border style |
+
+**Sizes:** `sm` (max-w-sm), `md` (max-w-md, default), `lg` (max-w-lg)
+
+**Props:**
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `icon` | `"folder" \| "alert" \| "search" \| "file" \| "inbox" \| "users" \| React.ReactNode` | — | Icon to display |
+| `title` | `string` | required | Title text |
+| `description` | `string` | — | Description text |
+| `primaryAction` | `{ label: string; onClick?: () => void; href?: string }` | — | Primary action button |
+| `secondaryAction` | `{ label: string; onClick?: () => void; href?: string }` | — | Secondary action link |
+| `footer` | `React.ReactNode` | — | Custom footer content |
+
+**Example:**
+
+```tsx
+<EmptyState
+  icon="search"
+  title="No results found"
+  description="Try adjusting your search or filters"
+  primaryAction={{ label: "Clear filters", onClick: clearFilters }}
+  variant="card"
+/>
+```
+
+Pre-configured variants: `EmptyStateNotFound`, `EmptyStateNoResults`, `EmptyStateNoData`.
+
+#### Toaster
+
+```typescript
+import { Toaster } from "@jem-open/jem-ui"
+```
+
+Add `<Toaster />` once in your root layout. Trigger toasts using `toast()` from the `sonner` package:
+
+```tsx
+// layout.tsx
+import { Toaster } from "@jem-open/jem-ui"
+
+export default function Layout({ children }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  )
+}
+
+// any component
+import { toast } from "sonner"
+
+toast.success("Changes saved")
+toast.error("Something went wrong")
+toast.info("New update available")
+toast.warning("Disk space low")
+```
+
+Icons are pre-configured: success (PartyPopper), error (TriangleAlert), info (Bell), warning (TriangleAlert), loading (Loader2 spinning).
+
+### Design Tokens (components)
+
+#### Icon
+
+```typescript
+import { Icon } from "@jem-open/jem-ui"
+```
+
+**Sizes:**
+
+| Size | Dimensions |
+|---|---|
+| `xs` | 12px |
+| `sm` | 16px |
+| `md` | 20px (default) |
+| `lg` | 24px |
+| `xl` | 32px |
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `icon` | `LucideIcon` | required | Lucide icon component |
+| `label` | `string` | — | Accessibility label |
+
+**Example:**
+
+```tsx
+import { Icon } from "@jem-open/jem-ui"
+import { Settings } from "lucide-react"
+
+<Icon icon={Settings} size="lg" label="Settings" />
+```
+
+Re-exported Lucide icons available from `@jem-open/jem-ui`: X, Menu, Check, ChevronDown, ChevronUp, ChevronLeft, ChevronRight, Home, Settings, Calendar, Users, Info, CircleAlert, AlertTriangle, Bell, Edit, Trash2, Download, Upload, Copy, Plus, Minus, Search, Filter, Eye, EyeOff, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, ExternalLink, MoreHorizontal, MoreVertical, RefreshCw, Loader2.
+
+#### PrimaryLogo
+
+```typescript
+import { PrimaryLogo } from "@jem-open/jem-ui"
+```
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `variant` | `"bg-pink" \| "bg-white" \| "pink" \| "white"` | `"bg-pink"` | Color scheme |
+| `size` | `"sm" \| "md" \| "lg" \| "xl"` | `"md"` | sm=24px, md=40px, lg=64px, xl=96px |
+
+**Example:**
+
+```tsx
+<PrimaryLogo variant="bg-white" size="lg" />
+```
+
+#### SecondaryLogoRound
+
+```typescript
+import { SecondaryLogoRound } from "@jem-open/jem-ui"
+```
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `variant` | `"bg-pink" \| "bg-white"` | `"bg-pink"` | Color scheme |
+| `size` | `"sm" \| "md" \| "lg" \| "xl"` | `"md"` | sm=32px, md=48px, lg=64px, xl=96px |
+
+#### SecondaryLogoSquare
+
+```typescript
+import { SecondaryLogoSquare } from "@jem-open/jem-ui"
+```
+
+Same props as SecondaryLogoRound.
