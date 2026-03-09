@@ -11,8 +11,7 @@ Auto-generated from all feature plans. Last updated: 2026-03-09
 
 ```text
 skills/                              # Skill content (one dir per skill)
-  coderabbit-fix-loop/SKILL.md       # CodeRabbit autonomous fix loop
-  deepsource-fix-loop/SKILL.md       # DeepSource autonomous fix loop
+  review-fix-loop/SKILL.md            # Unified analysis review-and-fix loop
 .github/                             # Issue/PR templates
   ISSUE_TEMPLATE/                    # Bug report, skill request
   PULL_REQUEST_TEMPLATE.md           # PR checklist
@@ -41,6 +40,9 @@ npx skills add jem-open/jem-agent-skills --list
 
 # Test local skill discovery
 npx skills add . --list
+
+# Review with CodeRabbit
+coderabbit review --plain -t all
 ```
 
 ## Code Style
@@ -51,7 +53,18 @@ npx skills add . --list
 
 ## Recent Changes
 
-- 001-add-fix-loop-skills: Adding coderabbit-fix-loop and deepsource-fix-loop skills, plus open-source repo scaffolding
+- 001-add-fix-loop-skills: Replaced coderabbit-fix-loop and deepsource-fix-loop with unified review-fix-loop skill, plus open-source repo scaffolding
 
 <!-- MANUAL ADDITIONS START -->
+## Gotchas
+
+- API content filtering can block Code of Conduct text — keep minimal, link to Contributor Covenant externally
+- This is a content-only repo: no build step, no package.json, no src/tests directories
+- review-fix-loop supports Claude Code, Gemini CLI, and a sequential fallback for other agents
+
+## Project Principles
+
+- See `.specify/memory/constitution.md` for ratified project constitution
+- Constitution Principle II (Agent-Agnostic) is now addressed by review-fix-loop's multi-agent support
+- All skills must be self-contained (Principle I) — no cross-skill dependencies
 <!-- MANUAL ADDITIONS END -->
