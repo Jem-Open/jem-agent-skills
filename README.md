@@ -13,6 +13,9 @@ npx skills add jem-open/jem-agent-skills
 | Skill | Description | Prerequisites |
 |-------|-------------|---------------|
 | [review-fix-loop](skills/review-fix-loop/SKILL.md) | Autonomous review-and-fix loop. Runs any code analysis tool, dispatches parallel subagents to fix findings, verifies with project lint and tests, and loops until clean. | An analysis CLI (e.g. [CodeRabbit](https://docs.coderabbit.ai/cli), [DeepSource](https://deepsource.io/cli), ESLint, Ruff) installed |
+| [jem-ui-components](skills/jem-ui-components/SKILL.md) | Complete reference for using `@jem-open/jem-ui` components — props, variants, design tokens, setup, and common mistakes to avoid. | `@jem-open/jem-ui` installed in your project |
+| [jem-ui-patterns](skills/jem-ui-patterns/SKILL.md) | Guide for composing `@jem-open/jem-ui` components into app-level UI patterns — forms, data views, modals, navigation, and feedback. | `@jem-open/jem-ui` installed in your project |
+| [jem-ui-recipes](skills/jem-ui-recipes/SKILL.md) | Copy-paste-ready code blocks for common pages and features built with `@jem-open/jem-ui` — search tables, CRUD forms, settings pages, and more. | `@jem-open/jem-ui` installed in your project |
 
 ## Install
 
