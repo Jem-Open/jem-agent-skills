@@ -12,8 +12,7 @@ npx skills add jem-open/jem-agent-skills
 
 | Skill | Description | Prerequisites |
 |-------|-------------|---------------|
-| [coderabbit-fix-loop](skills/coderabbit-fix-loop/SKILL.md) | Autonomous CodeRabbit review-and-fix loop. Runs `coderabbit review`, dispatches parallel subagents to fix all findings, verifies with lint + tests, and loops until zero findings remain. | [CodeRabbit CLI](https://docs.coderabbit.ai/cli) installed and authenticated |
-| [deepsource-fix-loop](skills/deepsource-fix-loop/SKILL.md) | Autonomous DeepSource analysis-and-fix loop. Fetches issues via the DeepSource CLI, dispatches parallel subagents to fix all findings, verifies with lint + tests, and loops until zero issues remain. | [DeepSource CLI](https://deepsource.io/cli) installed and authenticated |
+| [review-fix-loop](skills/review-fix-loop/SKILL.md) | Autonomous review-and-fix loop. Runs any code analysis tool, dispatches parallel subagents to fix findings, verifies with project lint and tests, and loops until clean. | An analysis CLI (e.g. [CodeRabbit](https://docs.coderabbit.ai/cli), [DeepSource](https://deepsource.io/cli), ESLint, Ruff) installed |
 
 ## Install
 
@@ -26,8 +25,7 @@ npx skills add jem-open/jem-agent-skills
 Install a specific skill:
 
 ```bash
-npx skills add jem-open/jem-agent-skills@coderabbit-fix-loop
-npx skills add jem-open/jem-agent-skills@deepsource-fix-loop
+npx skills add jem-open/jem-agent-skills@review-fix-loop
 ```
 
 List available skills before installing:
@@ -49,8 +47,9 @@ The [skills CLI](https://github.com/vercel-labs/skills) supports 40+ AI coding a
 Once installed, skills are available as commands in your AI agent. For example, in Claude Code:
 
 ```
-/coderabbit-fix-loop
-/deepsource-fix-loop
+/review-fix-loop coderabbit review --plain -t all
+/review-fix-loop deepsource issues --output json
+/review-fix-loop
 ```
 
 ## Contributing
