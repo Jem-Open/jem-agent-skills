@@ -31,16 +31,18 @@ Auto-detect tool from project config:
 
 ## Step 1 — Determine the analysis command
 
+Everything the user types after `/review-fix-loop` is available as `$ARGUMENTS`.
+
 If the user provided a command (from `$ARGUMENTS`), use it as-is.
 
 If no command was provided, auto-detect by checking for config files in the project root:
 
-| Config file | Tool | Command |
-|---|---|---|
-| `.coderabbit.yaml` | CodeRabbit | `coderabbit review --plain -t all` |
-| `.deepsource.toml` | DeepSource | `deepsource issues --output json` |
-| `.eslintrc*` or `eslint.config.*` | ESLint | `eslint . --format json` |
-| `ruff.toml` or `[tool.ruff]` in `pyproject.toml` | Ruff | `ruff check --output-format json` |
+| Config file | Tool | Command | Auth check |
+|---|---|---|---|
+| `.coderabbit.yaml` | CodeRabbit | `coderabbit review --plain -t all` | `coderabbit auth status` |
+| `.deepsource.toml` | DeepSource | `deepsource issues --output json` | `deepsource auth status` |
+| `.eslintrc*` or `eslint.config.*` | ESLint | `eslint . --format json` | — |
+| `ruff.toml` or `[tool.ruff]` in `pyproject.toml` | Ruff | `ruff check --output-format json` | — |
 
 If multiple config files exist, list them and ask the user which tool to run.
 
@@ -58,17 +60,19 @@ command -v <tool-name> >/dev/null 2>&1
 
 If not found, tell the user the tool is not installed and suggest installation. **Halt** — do not proceed until the tool is available.
 
-If the tool supports an auth check (e.g. `coderabbit auth status`, `deepsource auth status`), run it. If unauthenticated, tell the user how to authenticate. **Halt** until resolved.
+If the tool has an auth check listed in the Step 1 table, run it. For user-provided commands not in the table, skip the auth check. If unauthenticated, tell the user how to authenticate. **Halt** until resolved.
 
 ---
 
 ## Step 3 — Run analysis
 
-Execute the analysis command and capture full stdout:
+Execute the analysis command and capture full stdout and stderr:
 
 ```bash
-<analysis-command>
+<analysis-command> 2>&1
 ```
+
+If the command exits with a non-zero status and produces no parseable findings, report the error to the user and **halt**.
 
 Store the complete output for parsing.
 
@@ -188,6 +192,8 @@ If either fails:
 ## Step 9 — Loop
 
 Go back to Step 3.
+
+**Maximum iterations**: if the loop has completed 5 iterations, exit regardless of findings and proceed to Step 10.
 
 **Stuck detection**: track the set of findings each iteration by (file + description). If the same findings appear unchanged for 2 consecutive loops:
 - Print: `Stuck after <n> iterations. The following findings require manual review:`
