@@ -15,8 +15,7 @@ skills/                              # Skill content (one dir per skill)
 .github/                             # Issue/PR templates
   ISSUE_TEMPLATE/                    # Bug report, skill request
   PULL_REQUEST_TEMPLATE.md           # PR checklist
-specs/                               # Feature specifications
-.specify/                            # Speckit templates and scripts
+docs/plans/                          # Design docs and implementation plans
 README.md                            # Skill catalog and install instructions
 CONTRIBUTING.md                      # How to author and submit skills
 AGENTS.md                            # Guidance for AI agents on this repo
@@ -64,7 +63,6 @@ coderabbit review --plain -t all
 
 ## Project Principles
 
-- See `.specify/memory/constitution.md` for ratified project constitution
-- Constitution Principle II (Agent-Agnostic) is now addressed by review-fix-loop's multi-agent support
-- All skills must be self-contained (Principle I) — no cross-skill dependencies
+- Skills must be self-contained — no cross-skill dependencies
+- Skills should be agent-agnostic where possible (review-fix-loop supports Claude Code, Gemini CLI, and sequential fallback)
 <!-- MANUAL ADDITIONS END -->
