@@ -8,7 +8,7 @@ assignees: ''
 
 ## Skill Name
 
-<!-- Which skill has the issue? e.g., coderabbit-fix-loop -->
+<!-- Which skill has the issue? e.g., review-fix-loop -->
 
 ## Description
 
