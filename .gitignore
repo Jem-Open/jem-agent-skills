@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+
+# Editor configs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Node (for npx skills CLI usage)
+node_modules/
+
+# Logs
+*.log
+
+# OS
+Thumbs.db
