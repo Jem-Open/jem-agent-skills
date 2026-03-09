@@ -1320,3 +1320,159 @@ import { SecondaryLogoSquare } from "@jem-open/jem-ui"
 ```
 
 Same props as SecondaryLogoRound.
+
+---
+
+## Step 4 — Apply design tokens
+
+Use these design tokens for consistent styling. Always prefer semantic tokens over raw color values.
+
+### Colors — Semantic tokens
+
+Use semantic tokens for all UI colors. These adapt correctly across themes.
+
+| Category | CSS variable | Tailwind class | Purpose |
+|---|---|---|---|
+| Primary surface | `--primary-surface-default` | `bg-primary-surface-default` | Primary backgrounds (navy) |
+| Primary surface | `--primary-surface-lighter` | `bg-primary-surface-lighter` | Lighter primary bg |
+| Primary surface | `--primary-surface-subtle` | `bg-primary-surface-subtle` | Subtle primary bg |
+| Primary surface | `--primary-surface-darker` | `bg-primary-surface-darker` | Darker primary bg |
+| Primary border | `--primary-border-default` | `border-primary-border-default` | Primary borders |
+| Primary border | `--primary-border-lighter` | `border-primary-border-lighter` | Lighter primary border |
+| Primary border | `--primary-border-subtle` | `border-primary-border-subtle` | Subtle primary border |
+| Primary border | `--primary-border-darker` | `border-primary-border-darker` | Darker primary border |
+| Primary text | `--primary-text-label` | `text-primary-text-label` | Primary label text |
+| Secondary surface | `--secondary-surface-default` | `bg-secondary-surface-default` | Secondary backgrounds (pink) |
+| Secondary surface | `--secondary-surface-lighter` | `bg-secondary-surface-lighter` | Lighter secondary bg |
+| Secondary surface | `--secondary-surface-subtle` | `bg-secondary-surface-subtle` | Subtle secondary bg |
+| Secondary surface | `--secondary-surface-darker` | `bg-secondary-surface-darker` | Darker secondary bg |
+| Secondary border | `--secondary-border-default` | `border-secondary-border-default` | Secondary borders |
+| Secondary text | `--secondary-text-label` | `text-secondary-text-label` | Secondary label text |
+| Error surface | `--error-surface-default` | `bg-error-surface-default` | Error backgrounds (red) |
+| Error border | `--error-border-default` | `border-error-border-default` | Error borders |
+| Error text | `--error-text-label` | `text-error-text-label` | Error label text |
+| Warning surface | `--warning-surface-default` | `bg-warning-surface-default` | Warning backgrounds (orange) |
+| Warning border | `--warning-border-default` | `border-warning-border-default` | Warning borders |
+| Warning text | `--warning-text-label` | `text-warning-text-label` | Warning label text |
+| Success surface | `--success-surface-default` | `bg-success-surface-default` | Success backgrounds (green) |
+| Success border | `--success-border-default` | `border-success-border-default` | Success borders |
+| Success text | `--success-text-label` | `text-success-text-label` | Success label text |
+| Greyscale surface | `--greyscale-surface-default` | `bg-greyscale-surface-default` | Default page background |
+| Greyscale surface | `--greyscale-surface-subtle` | `bg-greyscale-surface-subtle` | Subtle background |
+| Greyscale surface | `--greyscale-surface-disabled` | `bg-greyscale-surface-disabled` | Disabled background |
+| Greyscale border | `--greyscale-border-default` | `border-greyscale-border-default` | Default borders |
+| Greyscale border | `--greyscale-border-disabled` | `border-greyscale-border-disabled` | Disabled borders |
+| Greyscale border | `--greyscale-border-darker` | `border-greyscale-border-darker` | Darker borders |
+| Greyscale text | `--greyscale-text-title` | `text-greyscale-text-title` | Page titles |
+| Greyscale text | `--greyscale-text-body` | `text-greyscale-text-body` | Body text |
+| Greyscale text | `--greyscale-text-subtitle` | `text-greyscale-text-subtitle` | Subtitles |
+| Greyscale text | `--greyscale-text-caption` | `text-greyscale-text-caption` | Captions, hints |
+| Greyscale text | `--greyscale-text-negative` | `text-greyscale-text-negative` | Inverted text (white) |
+| Greyscale text | `--greyscale-text-disabled` | `text-greyscale-text-disabled` | Disabled text |
+
+### Colors — Base palette
+
+Use sparingly. Prefer semantic tokens above. Available for decorative/custom elements only.
+
+| Palette | Tailwind prefix | Shades |
+|---|---|---|
+| Navy | `navy-` | 50, 100, 200, 300, 400, 500, 600, 700, 800, 900 |
+| Pink | `pink-` | 50, 100, 200, 300, 400, 500, 600, 700, 800, 900 |
+| Lime | `lime-` | 50–900 |
+| Purple | `purple-` | 50–900 |
+| Violet | `violet-` | 50–900 |
+| Blue | `blue-` | 50–900 |
+| Green | `green-` | 50–900 |
+| Orange | `orange-` | 50–900 |
+| Yellow | `yellow-` | 50–900 |
+| Red | `red-` | 50–900 |
+| Neutral | `neutral-` | 50–900, white, cream, black |
+
+Usage: `bg-navy-100`, `text-pink-900`, `border-green-500`, etc.
+
+### Spacing
+
+| Token | Tailwind class | Value |
+|---|---|---|
+| none | `p-none`, `m-none`, `gap-none` | 0px |
+| xxxxs | `p-xxxxs`, `m-xxxxs`, `gap-xxxxs` | 2px |
+| xxxs | `p-xxxs`, `m-xxxs`, `gap-xxxs` | 4px |
+| xxs | `p-xxs`, `m-xxs`, `gap-xxs` | 8px |
+| xs | `p-xs`, `m-xs`, `gap-xs` | 12px |
+| sm | `p-sm`, `m-sm`, `gap-sm` | 16px |
+| md | `p-md`, `m-md`, `gap-md` | 24px |
+| lg | `p-lg`, `m-lg`, `gap-lg` | 32px |
+| xl | `p-xl`, `m-xl`, `gap-xl` | 48px |
+| xxl | `p-xxl`, `m-xxl`, `gap-xxl` | 64px |
+| xxxl | `p-xxxl`, `m-xxxl`, `gap-xxxl` | 96px |
+| xxxxl | `p-xxxxl`, `m-xxxxl`, `gap-xxxxl` | 128px |
+
+These tokens work with all Tailwind spacing utilities: `p-`, `px-`, `py-`, `m-`, `mx-`, `my-`, `gap-`, `space-x-`, `space-y-`, `w-`, `h-`, etc.
+
+### Typography
+
+**Font families:**
+- `font-heading` — heading font (from `--font-family-heading`)
+- `font-body` — body font (from `--font-family-body`)
+
+**Font sizes:**
+
+| Token | Tailwind class | Value |
+|---|---|---|
+| xxs | `text-xxs` | 10px |
+| xs | `text-xs` | 12px |
+| sm | `text-sm` | 14px |
+| base | `text-base` | 16px |
+| lg | `text-lg` | 18px |
+| xl | `text-xl` | 20px |
+| 2xl | `text-2xl` | 24px |
+| 3xl | `text-3xl` | 30px |
+| 4xl | `text-4xl` | 36px |
+| 5xl | `text-5xl` | 48px |
+| 6xl | `text-6xl` | 60px |
+| 7xl | `text-7xl` | 72px |
+| 8xl | `text-8xl` | 96px |
+| 9xl | `text-9xl` | 128px |
+
+**Font weights:**
+
+| Weight | Tailwind class | Value |
+|---|---|---|
+| light | `font-light` | 300 |
+| regular | `font-regular` | 400 |
+| medium | `font-medium` | 500 |
+| semibold | `font-semibold` | 600 |
+| bold | `font-bold` | 700 |
+| extrabold | `font-extrabold` | 800 |
+| black | `font-black` | 900 |
+
+### Border radius
+
+| Token | Tailwind class | Value |
+|---|---|---|
+| none | `rounded-none` | 0px |
+| xs | `rounded-xs` | 2px |
+| sm | `rounded-sm` | 4px |
+| md | `rounded-md` | 6px |
+| lg | `rounded-lg` | 8px |
+| xl | `rounded-xl` | 12px |
+| 2xl | `rounded-2xl` | 16px |
+| 3xl | `rounded-3xl` | 24px |
+| 4xl | `rounded-4xl` | 32px |
+| full | `rounded-full` | 100px |
+
+---
+
+## Step 5 — Avoid common mistakes
+
+| Mistake | Why it's wrong | Correction |
+|---|---|---|
+| Building a custom button, input, or select component | jem-ui already provides these with consistent styling and accessibility | Check the catalog in Step 2 — the component likely exists |
+| Using raw hex colors like `bg-[#062133]` or `text-[#ff697f]` | Bypasses the design system; breaks if tokens change | Use semantic tokens: `bg-primary-surface-default`, `text-secondary-text-label` |
+| Merging classes with template literals: `` `${base} ${conditional}` `` | Tailwind classes can conflict (e.g. `p-4` and `p-2`); template literals don't resolve conflicts | Use `cn()` from `@jem-open/jem-ui`: `cn("p-4", isCompact && "p-2")` |
+| Wrapping a Button in an anchor: `<a><Button>Click</Button></a>` | Nested interactive elements — accessibility violation, unexpected behavior | Use `asChild`: `<Button asChild><a href="/path">Click</a></Button>` |
+| Writing `style={{ padding: '16px' }}` or `className="p-4"` | Bypasses design tokens; `p-4` is Tailwind default (16px) not jem-ui token | Use spacing tokens: `className="p-sm"` (16px via jem-ui token) |
+| Hardcoding `#ff697f` for pink or `#062133` for navy | Raw hex breaks if the palette changes | Use `text-pink-500` or semantic `text-secondary-text-label` |
+| Forgetting `TooltipProvider` wrapper | Tooltips silently won't render | Wrap your app or layout in `<TooltipProvider>` once |
+| Adding `Toaster` in every page component | Creates duplicate toasts | Add `<Toaster />` once in the root layout |
+| Using `<div onClick>` for clickable elements | Not keyboard accessible, no focus management, no semantic meaning | Use `<Button variant="ghost">` or the appropriate interactive component |
