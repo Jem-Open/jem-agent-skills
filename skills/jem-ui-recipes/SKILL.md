@@ -614,29 +614,32 @@ export function OnboardingWizard() {
 ### Recipe 6: Empty state with CTA
 
 ```tsx
+"use client"
+
 import { EmptyState } from "@jem-open/jem-ui"
 
+// TODO: Replace icon, title, description, and actions to match your empty state
 // Default variant
-export function NoProjectsState() {
+export function NoProjectsState({ onCreate }: { onCreate: () => void }) {
   return (
     <EmptyState
       icon="folder"
       title="No projects yet"
       description="Create your first project to get started"
-      primaryAction={{ label: "Create project", onClick: () => {} }}
+      primaryAction={{ label: "Create project", onClick: onCreate }}
       secondaryAction={{ label: "Learn more", href: "/docs" }}
     />
   )
 }
 
-// Card variant
-export function NoSearchResults() {
+// Card variant — use inside a section or panel
+export function NoSearchResults({ onClearFilters }: { onClearFilters: () => void }) {
   return (
     <EmptyState
       icon="search"
       title="No results found"
       description="Try adjusting your search terms or filters"
-      primaryAction={{ label: "Clear filters", onClick: () => {} }}
+      primaryAction={{ label: "Clear filters", onClick: onClearFilters }}
       variant="card"
       size="sm"
     />
