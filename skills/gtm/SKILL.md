@@ -1,30 +1,36 @@
 ---
 name: gtm
-description: Release workflow for when you are ready to ship. Bumps the version file, creates a release branch, publishes a GitHub release with auto-generated notes, and opens PRs into development and main.
+description: Release workflow for when you are ready to ship. Bumps the version file, creates a release branch, publishes a GitHub release with auto-generated notes, and opens PRs into the base branch and main.
 ---
 
 # gtm
 
-Go-to-market release workflow. Bumps the version, creates a release branch, pushes a GitHub release with auto-generated notes, and opens PRs into `development` and `main`.
+Go-to-market release workflow. Bumps the version, creates a release branch, pushes a GitHub release with auto-generated notes, and opens PRs into the base branch and `main`.
 
 ## Examples
 
-Patch release (e.g. 1.2.3 → 1.2.4):
+Patch release from the default `development` branch:
 
 ```
 /gtm --patch
 ```
 
-Minor release (e.g. 1.2.3 → 1.3.0):
+Minor release:
 
 ```
 /gtm --minor
 ```
 
-Major release (e.g. 1.2.3 → 2.0.0):
+Major release:
 
 ```
 /gtm --major
+```
+
+Specify a different base branch:
+
+```
+/gtm --minor --base=develop
 ```
 
 ---
@@ -59,21 +65,23 @@ Parse `$ARGUMENTS` for exactly one of: `--patch`, `--minor`, `--major`.
 If none or more than one is provided, print:
 
 ```
-Usage: /gtm --patch | --minor | --major
+Usage: /gtm --patch | --minor | --major [--base=<branch>]
 ```
 
 and **exit**.
 
-Verify the current branch is `development`:
+Parse `$ARGUMENTS` for an optional `--base=<branch>` flag. If provided, use that value as `BASE_BRANCH`. If not provided, default to `development`.
+
+Verify the current branch matches `BASE_BRANCH`:
 
 ```bash
 git rev-parse --abbrev-ref HEAD
 ```
 
-If not on `development`, print:
+If the current branch does not match `BASE_BRANCH`, print:
 
 ```
-You must be on the development branch to create a release. Current branch: <branch>
+You must be on the <BASE_BRANCH> branch to create a release. Current branch: <branch>
 ```
 
 and **exit**.
@@ -194,14 +202,14 @@ GitHub release v<NEW_VERSION> created.
 
 ---
 
-## Step 5 — Create PR into development
+## Step 5 — Create PR into base branch
 
 ```bash
 gh pr create \
-  --base development \
+  --base <BASE_BRANCH> \
   --head release/v<NEW_VERSION> \
   --title "Bump version to v<NEW_VERSION>" \
-  --body "Merge release branch back into development after v<NEW_VERSION> release."
+  --body "Merge release branch back into <BASE_BRANCH> after v<NEW_VERSION> release."
 ```
 
 If PR creation fails (e.g. branch protection, permissions), print the error and continue to Step 6 — do not **exit**, as the main PR may still succeed.
@@ -209,7 +217,7 @@ If PR creation fails (e.g. branch protection, permissions), print the error and 
 Capture and display the PR URL:
 
 ```
-PR created: <URL> (release → development)
+PR created: <URL> (release → <BASE_BRANCH>)
 ```
 
 ---
@@ -245,15 +253,15 @@ Print a summary:
 | Version             | <OLD> → <NEW_VERSION>  |
 | Branch              | release/v<NEW_VERSION> |
 | GitHub Release      | v<NEW_VERSION>         |
-| PR → development    | <URL>                  |
+| PR → <BASE_BRANCH>  | <URL>                  |
 | PR → main           | <URL>                  |
 +---------------------+------------------------+
 ```
 
 If either PR failed, show `FAILED` instead of the URL in the summary.
 
-Switch back to the development branch:
+Switch back to the base branch:
 
 ```bash
-git checkout development
+git checkout <BASE_BRANCH>
 ```
