@@ -208,7 +208,7 @@ Add to `.pre-commit-config.yaml`:
 ```yaml
 repos:
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.21.2
+    rev: v8.30.1
     hooks:
       - id: gitleaks
 ```
