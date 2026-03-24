@@ -28,15 +28,9 @@ boundary, never in the agent's visible shell.**
 - 1Password CLI (`op`) installed and available on PATH
 - Biometric unlock enabled (the desktop app authenticates the CLI)
 
-Before doing anything with secrets, verify the CLI is authenticated:
-
-```bash
-op whoami
-```
-
-If this fails, tell the user: "Please unlock your 1Password desktop app so the CLI can
-authenticate via biometric." Do not attempt to handle authentication yourself — no session
-tokens, no `op signin`, no credentials.
+Do not attempt to handle authentication yourself — no session tokens, no `op signin`, no
+credentials. If an `op run` command fails with an authentication error, tell the user:
+"Please unlock your 1Password desktop app so the CLI can authenticate via biometric."
 
 ## The one rule: `op run` for everything
 
@@ -269,4 +263,3 @@ If a secret is accidentally surfaced in the terminal or in the agent's context:
 | Find a secret reference path | Ask the user, or `op item list --vault=Name` |
 | Create/edit a .env file | Use only `op://` references, never real values |
 | Read a secret in application code | `os.environ['KEY'].strip()` — trim always |
-| Check if CLI is authenticated | `op whoami` |
