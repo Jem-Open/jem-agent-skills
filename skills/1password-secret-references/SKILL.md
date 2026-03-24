@@ -203,12 +203,13 @@ or a human made the mistake.
 
 ### Using the pre-commit framework
 
-Add to `.pre-commit-config.yaml`:
+Add to `.pre-commit-config.yaml` (use the latest stable `rev` from the
+[gitleaks releases page](https://github.com/gitleaks/gitleaks/releases)):
 
 ```yaml
 repos:
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.30.1
+    rev: <latest version>
     hooks:
       - id: gitleaks
 ```
