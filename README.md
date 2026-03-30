@@ -54,7 +54,7 @@ Once installed, skills are available as commands in your AI agent. For example, 
 
 ```
 /review-fix-loop coderabbit review --plain -t all
-/review-fix-loop deepsource issues --output json
+/review-fix-loop deepsource issues list --json --output-file deepsource-findings.json
 /review-fix-loop
 ```
 
