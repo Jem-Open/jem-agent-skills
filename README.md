@@ -16,6 +16,8 @@ npx skills add jem-open/jem-agent-skills
 | [jem-ui-components](skills/jem-ui-components/SKILL.md) | Complete reference for using `@jem-open/jem-ui` components — props, variants, design tokens, setup, and common mistakes to avoid. | `@jem-open/jem-ui` installed in your project |
 | [jem-ui-patterns](skills/jem-ui-patterns/SKILL.md) | Guide for composing `@jem-open/jem-ui` components into app-level UI patterns — forms, data views, modals, navigation, and feedback. | `@jem-open/jem-ui` installed in your project |
 | [jem-ui-recipes](skills/jem-ui-recipes/SKILL.md) | Copy-paste-ready code blocks for common pages and features built with `@jem-open/jem-ui` — search tables, CRUD forms, settings pages, and more. | `@jem-open/jem-ui` installed in your project |
+| [jem-brand-guidelines](skills/jem-brand-guidelines/SKILL.md) | Single source of truth for Jem's colours, typography, tone of voice, logo usage, iconography, and visual identity. Reference skill for any on-brand content or code. | None |
+| [1password-secret-references](skills/1password-secret-references/SKILL.md) | Enforces safe secret handling using 1Password CLI and `op://` secret references. Ensures secrets are never resolved, printed, logged, or stored in the agent's context — all secret access goes through `op run`. | [1Password desktop app](https://1password.com/downloads) with biometric unlock, [1Password CLI (`op`)](https://developer.1password.com/docs/cli/) installed |
 | [gtm](skills/gtm/SKILL.md) | Release workflow — bumps the version file, creates a release branch, publishes a GitHub release with auto-generated notes, and opens PRs into the base branch and main. | [GitHub CLI (`gh`)](https://cli.github.com) installed and authenticated, a `version` file at the project root |
 
 ## Install
@@ -52,7 +54,7 @@ Once installed, skills are available as commands in your AI agent. For example, 
 
 ```
 /review-fix-loop coderabbit review --plain -t all
-/review-fix-loop deepsource issues --output json
+/review-fix-loop deepsource issues list --json --output-file deepsource-findings.json
 /review-fix-loop
 ```
 

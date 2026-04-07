@@ -18,7 +18,7 @@ CodeRabbit review of all changes:
 DeepSource issues as JSON:
 
 ```
-/review-fix-loop deepsource issues --output json
+/review-fix-loop deepsource issues list --json --output-file deepsource-findings.json
 ```
 
 Auto-detect tool from project config:
@@ -40,7 +40,7 @@ If no command was provided, auto-detect by checking for config files in the proj
 | Config file | Tool | Command | Auth check |
 |---|---|---|---|
 | `.coderabbit.yaml` | CodeRabbit | `coderabbit review --plain -t all` | `coderabbit auth status` |
-| `.deepsource.toml` | DeepSource | `deepsource issues --output json` | `deepsource auth status` |
+| `.deepsource.toml` | DeepSource | `deepsource issues list --json --output-file deepsource-findings.json` | `deepsource auth status` |
 | `.eslintrc*` or `eslint.config.*` | ESLint | `eslint . --format json` | — |
 | `ruff.toml` or `[tool.ruff]` in `pyproject.toml` | Ruff | `ruff check --output-format json` | — |
 
