@@ -1,11 +1,11 @@
 ---
 name: gtm
-description: Release workflow for when you are ready to ship. Bumps the version file, creates a release branch, publishes a GitHub release with auto-generated notes, and opens PRs into the base branch and main.
+description: Release workflow for when you are ready to ship. Bumps the version file, creates a release branch, publishes a GitHub release with auto-generated notes, and opens PRs into the base branch and main. Both PRs are auto-merged by default once all branch protection requirements are satisfied; pass --no-auto-merge to leave them open.
 ---
 
 # gtm
 
-Go-to-market release workflow. Bumps the version, creates a release branch, pushes a GitHub release with auto-generated notes, and opens PRs into the base branch and `main`.
+Go-to-market release workflow. Bumps the version, creates a release branch, pushes a GitHub release with auto-generated notes, and opens PRs into the base branch and `main`. Both PRs are auto-merged by default once all branch protection requirements (status checks, required reviews) are satisfied. Pass `--no-auto-merge` to skip auto-merge and leave PRs open for manual review.
 
 ## Examples
 
@@ -31,6 +31,12 @@ Specify a different base branch:
 
 ```
 /gtm --minor --base=develop
+```
+
+Leave PRs open for manual review instead of auto-merging:
+
+```
+/gtm --patch --no-auto-merge
 ```
 
 ---
@@ -65,12 +71,14 @@ Parse `$ARGUMENTS` for exactly one of: `--patch`, `--minor`, `--major`.
 If none or more than one is provided, print:
 
 ```
-Usage: /gtm --patch | --minor | --major [--base=<branch>]
+Usage: /gtm --patch | --minor | --major [--base=<branch>] [--no-auto-merge]
 ```
 
 and **exit**.
 
 Parse `$ARGUMENTS` for an optional `--base=<branch>` flag. If provided, use that value as `BASE_BRANCH`. If not provided, default to `development`.
+
+Parse `$ARGUMENTS` for an optional `--no-auto-merge` flag. If present, set `AUTO_MERGE=false`; otherwise default to `AUTO_MERGE=true`.
 
 Verify the current branch matches `BASE_BRANCH`:
 
@@ -220,6 +228,18 @@ Capture and display the PR URL:
 PR created: <URL> (release → <BASE_BRANCH>)
 ```
 
+If `AUTO_MERGE=true` and the PR was created successfully, enable auto-merge:
+
+```bash
+gh pr merge <URL> --auto --merge
+```
+
+If this fails, print the error as a warning but do not **exit**:
+
+```
+Warning: auto-merge could not be enabled for PR → <BASE_BRANCH>: <error>
+```
+
 ---
 
 ## Step 6 — Create PR into main
@@ -240,6 +260,18 @@ Capture and display the PR URL:
 PR created: <URL> (release → main)
 ```
 
+If `AUTO_MERGE=true` and the PR was created successfully, enable auto-merge:
+
+```bash
+gh pr merge <URL> --auto --merge
+```
+
+If this fails, print the error as a warning but do not **exit**:
+
+```
+Warning: auto-merge could not be enabled for PR → main: <error>
+```
+
 ---
 
 ## Step 7 — Summary
@@ -255,10 +287,11 @@ Print a summary:
 | GitHub Release      | v<NEW_VERSION>         |
 | PR → <BASE_BRANCH>  | <URL>                  |
 | PR → main           | <URL>                  |
+| Auto-merge          | enabled / disabled     |
 +---------------------+------------------------+
 ```
 
-If either PR failed, show `FAILED` instead of the URL in the summary.
+If either PR failed, show `FAILED` instead of the URL in the summary. If `AUTO_MERGE=true` but auto-merge could not be enabled for a PR, show the URL followed by `(auto-merge failed)`.
 
 Switch back to the base branch:
 
