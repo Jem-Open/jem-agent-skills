@@ -80,16 +80,22 @@ Parse `$ARGUMENTS` for an optional `--base=<branch>` flag. If provided, use that
 
 Parse `$ARGUMENTS` for an optional `--no-auto-merge` flag. If present, set `AUTO_MERGE=false`; otherwise default to `AUTO_MERGE=true`.
 
-Verify the current branch matches `BASE_BRANCH`:
+Check the current branch:
 
 ```bash
 git rev-parse --abbrev-ref HEAD
 ```
 
-If the current branch does not match `BASE_BRANCH`, print:
+If the current branch does not match `BASE_BRANCH`, automatically check it out:
+
+```bash
+git checkout <BASE_BRANCH>
+```
+
+If the checkout fails, print:
 
 ```
-You must be on the <BASE_BRANCH> branch to create a release. Current branch: <branch>
+Could not switch to branch <BASE_BRANCH>. Please resolve any issues and try again.
 ```
 
 and **exit**.
