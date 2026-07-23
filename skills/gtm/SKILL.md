@@ -1,11 +1,11 @@
 ---
 name: gtm
-description: Release workflow for when you are ready to ship. Bumps the version file, creates a release branch, publishes a GitHub release with auto-generated notes, and opens PRs into the base branch and main. Both PRs are auto-merged by default once all branch protection requirements are satisfied; pass --no-auto-merge to leave them open.
+description: Release workflow for when you are ready to ship. Bumps the version file, creates a release branch, publishes a GitHub release with auto-generated notes, and opens PRs into the base branch and main. When base is main, only a single PR is created. PRs are auto-merged by default once all branch protection requirements are satisfied; pass --no-auto-merge to leave them open.
 ---
 
 # gtm
 
-Go-to-market release workflow. Bumps the version, creates a release branch, pushes a GitHub release with auto-generated notes, and opens PRs into the base branch and `main`. Both PRs are auto-merged by default once all branch protection requirements (status checks, required reviews) are satisfied. Pass `--no-auto-merge` to skip auto-merge and leave PRs open for manual review.
+Go-to-market release workflow. Bumps the version, creates a release branch, pushes a GitHub release with auto-generated notes, and opens PRs into the base branch and `main`. When the base branch is `main`, only a single PR (release → main) is created. PRs are auto-merged by default once all branch protection requirements (status checks, required reviews) are satisfied. Pass `--no-auto-merge` to skip auto-merge and leave PRs open for manual review.
 
 ## Examples
 
@@ -216,7 +216,13 @@ GitHub release v<NEW_VERSION> created.
 
 ---
 
-## Step 5 — Create PR into base branch
+## Step 5 — Create PRs
+
+**If `BASE_BRANCH` is `main`:** create a single PR from the release branch into main. Skip Step 5a and go directly to Step 5b.
+
+**If `BASE_BRANCH` is not `main`:** create two PRs — one back into the base branch (Step 5a) and one into main (Step 5b).
+
+### Step 5a — Create PR into base branch (skip when base is main)
 
 ```bash
 gh pr create \
@@ -226,7 +232,7 @@ gh pr create \
   --body "Merge release branch back into <BASE_BRANCH> after v<NEW_VERSION> release."
 ```
 
-If PR creation fails (e.g. branch protection, permissions), print the error and continue to Step 6 — do not **exit**, as the main PR may still succeed.
+If PR creation fails (e.g. branch protection, permissions), print the error and continue to Step 5b — do not **exit**, as the main PR may still succeed.
 
 Capture and display the PR URL:
 
@@ -246,9 +252,7 @@ If this fails, print the error as a warning but do not **exit**:
 Warning: auto-merge could not be enabled for PR → <BASE_BRANCH>: <error>
 ```
 
----
-
-## Step 6 — Create PR into main
+### Step 5b — Create PR into main
 
 ```bash
 gh pr create \
@@ -258,7 +262,7 @@ gh pr create \
   --body "Production release of v<NEW_VERSION>."
 ```
 
-If PR creation fails, print the error and continue to Step 7.
+If PR creation fails, print the error and continue to Step 6.
 
 Capture and display the PR URL:
 
@@ -280,9 +284,9 @@ Warning: auto-merge could not be enabled for PR → main: <error>
 
 ---
 
-## Step 7 — Summary
+## Step 6 — Summary
 
-Print a summary:
+Print a summary. When `BASE_BRANCH` is `main`, omit the `PR → <BASE_BRANCH>` row (only one PR exists):
 
 ```
 +----------------------------------------------+
@@ -291,7 +295,7 @@ Print a summary:
 | Version             | <OLD> → <NEW_VERSION>  |
 | Branch              | release/v<NEW_VERSION> |
 | GitHub Release      | v<NEW_VERSION>         |
-| PR → <BASE_BRANCH>  | <URL>                  |
+| PR → <BASE_BRANCH>  | <URL>                  |   ← only when base ≠ main
 | PR → main           | <URL>                  |
 | Auto-merge          | enabled / disabled     |
 +---------------------+------------------------+
